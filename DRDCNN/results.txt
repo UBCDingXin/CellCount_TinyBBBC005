@@ -1,0 +1,17 @@
+Experiment 1:
+seed=2020, transform
+Test set RMSE: 5.2330; Test set MAE: 4.0441
+
+
+Experiment 2:
+seed=2020, transform
+Round 1: Test set RMSE: 4.7960; Test set MAE: 3.7488
+Round 2: Test set RMSE: 4.6082; Test set MAE: 3.5406
+Round 3: Test set RMSE: 4.4869; Test set MAE: 3.4676
+
+
+Experiment 3:
+seed=2020, transform
+Round 1: Test set RMSE: 4.6282; Test set MAE: 3.5915
+Round 2: Test set RMSE: 4.5014; Test set MAE: 3.4751
+Round 3: Test set RMSE: 7.0012; Test set MAE: 5.0548
