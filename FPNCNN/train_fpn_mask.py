@@ -109,13 +109,22 @@ def train_fpn_mask(trainloader, test_images, test_masks, fpn, save_images_folder
 
             if steps % 100 == 0:
                 with torch.no_grad():
-                    test_batch_recon_mask_mean, test_batch_recon_mask_var = fpn(test_images)
+                    test_batch_recon_mask_mean, test_batch_recon_mask_logvar = fpn(test_images)
 
-                test_batch_recon_mask = torch.sigmoid(test_batch_recon_mask_mean[-1].cpu())
-                test_batch_recon_mask[test_batch_recon_mask >= 0.5] = 1
-                test_batch_recon_mask[test_batch_recon_mask < 0.5] = 0
-                save_image(test_batch_recon_mask.data,
-                           save_images_folder + '/{}.png'.format(steps),
+                test_batch_recon_mask_mean = test_batch_recon_mask_mean[-1].cpu()
+                test_batch_recon_mask_var = torch.exp(test_batch_recon_mask_logvar[-1]).cpu()
+                # test_batch_recon_mask_mean = torch.sigmoid(test_batch_recon_mask_mean[-1]).cpu()
+                # test_batch_recon_mask_var = torch.sigmoid(torch.exp(test_batch_recon_mask_logvar[-1])).cpu()
+                # test_batch_recon_mask_mean[test_batch_recon_mask_mean >= 0.5] = 1
+                # test_batch_recon_mask_mean[test_batch_recon_mask_mean < 0.5] = 0
+                # test_batch_recon_mask_var[test_batch_recon_mask_var >= 0.5] = 1
+                # test_batch_recon_mask_var[test_batch_recon_mask_var < 0.5] = 0
+                save_image(test_batch_recon_mask_mean.data,
+                           save_images_folder + '/mean_{}.png'.format(steps),
+                           nrow=n_row,
+                           normalize=True)
+                save_image(test_batch_recon_mask_var.data,
+                           save_images_folder + '/var_{}.png'.format(steps),
                            nrow=n_row,
                            normalize=True)
 

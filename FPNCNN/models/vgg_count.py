@@ -62,3 +62,5 @@ class Counter(nn.Module):
         means, lv = x
         out = self.vgg(means[-1])
         return self.fc_mean(out), self.fc_lvar(out)
+        # return self.fc_mean(out)
+

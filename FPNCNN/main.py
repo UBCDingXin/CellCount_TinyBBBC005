@@ -7,6 +7,8 @@ import torch.backends.cudnn as cudnn
 import numpy as np
 import random
 import timeit
+from collections import OrderedDict
+
 
 ### import my stuffs ###
 from opts import prepare_options
@@ -143,45 +145,45 @@ path_to_images_in_train = save_images_folder + '/images_in_train_FPN_transform_{
 os.makedirs(path_to_images_in_train, exist_ok=True)
 
 ### train the FPN ###
-if not os.path.isfile(fpn_ckpt_fullpath):
-    start = timeit.default_timer()
-    print("\n Begin training FPN:")
+# if not os.path.isfile(fpn_ckpt_fullpath):
+#     start = timeit.default_timer()
+#     print("\n Begin training FPN:")
 
-    ## randomly choose some tiny-bbbc005 images to test during training
-    indx_test = np.random.choice(np.arange(len(tiny3bc005_test_images)), size=16)
-    test_images = tiny3bc005_test_images[indx_test]
-    test_masks = tiny3bc005_test_masks[indx_test]
+#     ## randomly choose some tiny-bbbc005 images to test during training
+#     indx_test = np.random.choice(np.arange(len(tiny3bc005_test_images)), size=16)
+#     test_images = tiny3bc005_test_images[indx_test]
+#     test_masks = tiny3bc005_test_masks[indx_test]
 
-    _, _, h, w = test_images.shape
-    # fpn = FPN(h, w).cuda()
-    fpn = FPN(h, w).cuda()
-    fpn = nn.DataParallel(fpn)
-    fpn = train_fpn_mask(trainloader=tiny3bc005_dataloader_mask,
-                         test_images=test_images,
-                         test_masks=test_masks,
-                         fpn=fpn,
-                         save_images_folder=path_to_images_in_train,
-                         path_to_ckpt=path_to_ckpt_in_train)
+#     _, _, h, w = test_images.shape
+#     # fpn = FPN(h, w).cuda()
+#     fpn = FPN(h, w).cuda()
+#     fpn = nn.DataParallel(fpn)
+#     fpn = train_fpn_mask(trainloader=tiny3bc005_dataloader_mask,
+#                          test_images=test_images,
+#                          test_masks=test_masks,
+#                          fpn=fpn,
+#                          save_images_folder=path_to_images_in_train,
+#                          path_to_ckpt=path_to_ckpt_in_train)
 
-    # store model
-    torch.save({
-        'net_state_dict': fpn.state_dict(),
-    }, fpn_ckpt_fullpath)
+#     # store model
+#     torch.save({
+#         'net_state_dict': fpn.state_dict(),
+#     }, fpn_ckpt_fullpath)
 
-    stop = timeit.default_timer()
-    print("FPN mask training finished! Time elapses: {}s".format(stop - start))
-else:
-    print("\n Load pre-trained FPN mask:")
-    checkpoint = torch.load(fpn_ckpt_fullpath)
-    ## randomly choose some tiny-bbbc005 images to test during training
-    indx_test = np.random.choice(np.arange(len(tiny3bc005_test_images)), size=16)
-    test_images = tiny3bc005_test_images[indx_test]
-    test_masks = tiny3bc005_test_masks[indx_test]
+#     stop = timeit.default_timer()
+#     print("FPN mask training finished! Time elapses: {}s".format(stop - start))
+# else:
+#     print("\n Load pre-trained FPN mask:")
+#     checkpoint = torch.load(fpn_ckpt_fullpath)
+#     ## randomly choose some tiny-bbbc005 images to test during training
+#     indx_test = np.random.choice(np.arange(len(tiny3bc005_test_images)), size=16)
+#     test_images = tiny3bc005_test_images[indx_test]
+#     test_masks = tiny3bc005_test_masks[indx_test]
 
-    _, _, h, w = test_images.shape()
-    fpn = FPN(h, w).cuda()
-    fpn = nn.DataParallel(fpn)
-    fpn.load_state_dict(checkpoint['net_state_dict'])
+#     _, _, h, w = test_images.shape()
+#     fpn = FPN(h, w).cuda()
+#     fpn = nn.DataParallel(fpn)
+#     fpn.load_state_dict(checkpoint['net_state_dict'])
 # end if
 
 #######################################################################################
@@ -212,10 +214,11 @@ if not os.path.isfile(cnn_ckpt_fullpath):
     _, _, h, w = test_images.shape
     fpn = FPN(h, w).cuda()
     fpn = nn.DataParallel(fpn)
+    fpn_ckpt_fullpath = save_models_folder + '/ckpt_FPN_epochs_50_transform_False_seed_2020.pth'
     checkpoint = torch.load(fpn_ckpt_fullpath)
     fpn.load_state_dict(checkpoint['net_state_dict'])
 
-    count = Counter(h // 2, w // 2, model_class=arg.cnn_name).cuda()
+    count = Counter(h // 2, w // 2, model_class=args.cnn_name).cuda()
 
     count = nn.DataParallel(count)
     cnn_net = train_vgg(trainloader=tiny3bc005_train_dataloader,

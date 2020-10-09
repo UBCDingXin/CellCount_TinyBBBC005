@@ -4,6 +4,8 @@ import os
 import timeit
 import math
 from utils import *
+from collections import OrderedDict
+
 
 ### import settings ###
 from opts import prepare_options
@@ -46,11 +48,13 @@ def train_vgg(trainloader, testloader, max_count, fpn, net, path_to_ckpt=None):
     # nets
     net = net.cuda()
     fpn = fpn.cuda()
-    fpn.eval()
     model = nn.Sequential(OrderedDict([('fpn', fpn), ('counter', net)]))
 
     # define optimizer
-    optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    
+    # criterion = nn.MSELoss()
 
     if path_to_ckpt is not None and resume_epoch > 0:
         print("Loading ckpt to resume training the CNN >>>")
@@ -74,6 +78,10 @@ def train_vgg(trainloader, testloader, max_count, fpn, net, path_to_ckpt=None):
 
             net.train()
 
+            for name, params in model.named_parameters():
+                if 'fpn' in name:
+                    params.requires_grad = False
+
             batch_images = batch_samples['image']
             batch_counts = batch_samples['count']  #normalized
 
@@ -85,7 +93,11 @@ def train_vgg(trainloader, testloader, max_count, fpn, net, path_to_ckpt=None):
 
             #forward pass
             batch_pred_counts = model(batch_images)
-            loss = counter_loss(batch_images, batch_pred_counts)
+            loss = counter_loss(batch_pred_counts, batch_counts)
+
+            # loss = counter_loss(batch_pred_counts, batch_counts)
+            # loss = criterion(torch.squeeze(batch_pred_counts), torch.squeeze(batch_counts))
+
 
             #backward pass
             optimizer.zero_grad()
@@ -140,6 +152,7 @@ def test_vgg(testloader, max_count, model, verbose=True):
 
             #forward pass
             batch_pred_counts, _ = model(batch_images)
+            # batch_pred_counts = model(batch_images)
             batch_pred_counts *= max_count  #back to the original scale
 
             batch_sum_of_square_error = square_error(batch_pred_counts.view(-1, 1),
