@@ -6,7 +6,6 @@ import math
 from utils import *
 from collections import OrderedDict
 
-
 ### import settings ###
 from opts import prepare_options
 ''' Settings '''
@@ -51,10 +50,13 @@ def train_vgg(trainloader, testloader, max_count, fpn, net, path_to_ckpt=None):
     model = nn.Sequential(OrderedDict([('fpn', fpn), ('counter', net)]))
 
     # define optimizer
-    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
-    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
-    
-    # criterion = nn.MSELoss()
+    optimizer = torch.optim.SGD(net.parameters(),
+                                lr=lr_base,
+                                momentum=0.9,
+                                weight_decay=weight_decay)
+    # optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+
+    criterion = nn.MSELoss()
 
     if path_to_ckpt is not None and resume_epoch > 0:
         print("Loading ckpt to resume training the CNN >>>")
@@ -93,11 +95,10 @@ def train_vgg(trainloader, testloader, max_count, fpn, net, path_to_ckpt=None):
 
             #forward pass
             batch_pred_counts = model(batch_images)
-            loss = counter_loss(batch_pred_counts, batch_counts)
+            # loss = counter_loss(batch_pred_counts, batch_counts)
 
             # loss = counter_loss(batch_pred_counts, batch_counts)
-            # loss = criterion(torch.squeeze(batch_pred_counts), torch.squeeze(batch_counts))
-
+            loss = criterion(torch.squeeze(batch_pred_counts), torch.squeeze(batch_counts))
 
             #backward pass
             optimizer.zero_grad()
@@ -151,8 +152,8 @@ def test_vgg(testloader, max_count, model, verbose=True):
             batch_counts = batch_counts.type(torch.float).cuda()
 
             #forward pass
-            batch_pred_counts, _ = model(batch_images)
-            # batch_pred_counts = model(batch_images)
+            # batch_pred_counts, _ = model(batch_images)
+            batch_pred_counts = model(batch_images)
             batch_pred_counts *= max_count  #back to the original scale
 
             batch_sum_of_square_error = square_error(batch_pred_counts.view(-1, 1),
