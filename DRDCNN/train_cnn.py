@@ -49,7 +49,8 @@ def train_cnn(trainloader, testloader, max_count, net, unet, path_to_ckpt=None):
     unet.eval()
 
     # define optimizer
-    optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
 
     # criterion
     criterion = nn.MSELoss()
@@ -111,7 +112,7 @@ def train_cnn(trainloader, testloader, max_count, net, unet, path_to_ckpt=None):
             os.makedirs(os.path.dirname(save_file), exist_ok=True)
             torch.save({
                     'steps': steps,
-                    'net_state_dict': net.state_dict(),
+                    'net_state_dict': unet.state_dict(),
                     'optimizer_state_dict': optimizer.state_dict(),
                     'rng_state': torch.get_rng_state()
             }, save_file)

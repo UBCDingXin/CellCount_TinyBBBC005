@@ -13,6 +13,7 @@ def prepare_options():
     parser.add_argument('--experiment_name', type=str, default='exp1')
 
     ''' Datast Settings '''
+    parser.add_argument('--num_train', type=int, default=2400, metavar='N',help='number of training samples')
     parser.add_argument('--num_channels', type=int, default=1, metavar='N')
     parser.add_argument('--img_height', type=int, default=256, metavar='N')
     parser.add_argument('--img_width', type=int, default=256, metavar='N')

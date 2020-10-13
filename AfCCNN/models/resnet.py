@@ -18,7 +18,7 @@ import torch.nn.functional as F
 import math
 
 
-img_size = (300, 300)
+img_size = (256, 256)
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -92,26 +92,15 @@ class ResNet(nn.Module):
             nn.AvgPool2d(kernel_size=4) #h/4; 2
         )
 
-        in_dim = 512 * math.floor(img_size[0]/2**7)*math.floor(img_size[1]/2**7) #in original ResNet model, in_dim=512*block.expansion
+        in_dim = 512 * math.floor(img_size[0]/2**7)*math.floor(img_size[1]/2**7) * block.expansion #in original ResNet model, in_dim=512*block.expansion
         if num_classes > 1: #classification
-            # self.dense = nn.Sequential(
-            #     nn.Linear(in_dim, 512),
-            #     nn.BatchNorm1d(512),
-            #     nn.LeakyReLU(0.1),
-            #     nn.Linear(512, num_classes),
-            # )
             self.dense = nn.Linear(in_dim, num_classes)
         else: #regression
             self.dense = nn.Sequential(
-                nn.Linear(in_dim, 1024),
-                nn.BatchNorm1d(1024),
-                nn.LeakyReLU(0.1),
-                nn.Linear(1024, 512),
-                nn.BatchNorm1d(512),
-                nn.LeakyReLU(0.1),
-                nn.Linear(512, 1),
+                nn.Linear(in_dim, num_classes),
                 nn.ReLU()
             )
+        #end num_classes
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
@@ -144,8 +133,8 @@ def ResNet152(num_classes=24):
 
 
 if __name__ == "__main__":
-    net = ResNet34(num_classes=24).cuda()
+    net = ResNet50(num_classes=24).cuda()
     net = nn.DataParallel(net)
-    img = torch.randn(32,1,img_size[0],img_size[1]).cuda()
+    img = torch.randn(4,1,img_size[0],img_size[1]).cuda()
     out = net(img)
     print(out.size())

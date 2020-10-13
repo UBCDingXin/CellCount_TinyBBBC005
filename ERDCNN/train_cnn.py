@@ -52,7 +52,8 @@ def train_cnn(trainloader, testloader, max_count, net, unet_density, unet_mask, 
     unet_mask.eval()
 
     # define optimizer
-    optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
 
     # criterion
     criterion = nn.MSELoss()

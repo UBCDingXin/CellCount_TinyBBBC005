@@ -53,7 +53,8 @@ class IMGs_dataset(torch.utils.data.Dataset):
 
         if self.transform:
             image_pil = Image.fromarray(np.uint8(image[0]), mode = 'L') #H * W
-            rotation_degree = np.random.choice(np.array([0, 90, 180, 270]))
+            # rotation_degree = np.random.choice(np.array([0, 90, 180, 270]))
+            rotation_degree = np.random.choice(np.array([0]))
             image_pil = torchvision.transforms.functional.rotate(image_pil, rotation_degree)
             image_pil = TransHFlip(image_pil)
             image_pil = TransVFlip(image_pil)
@@ -144,7 +145,7 @@ def tv_loss(img, tv_weight=1E-6):
 def bloss(x, lv, y, log_eps=-6.):
     t = nn.Threshold(log_eps, 0.)
     return torch.mean(((y - x)**2.) / torch.exp(t(lv)) + t(lv))
-    # return torch.mean((y - x).pow(2).div(torch.exp(lv)) + lv) 
+    # return torch.mean((y - x).pow(2).div(torch.exp(lv)) + lv)
 
 
 def fpn_loss(x, y):

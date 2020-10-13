@@ -52,7 +52,8 @@ def train_class_cnn(trainloader, testloader, classlabel_to_count, net, path_to_c
     net = net.cuda()
 
     # define optimizer
-    optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
 
     # criterion
     criterion = nn.CrossEntropyLoss()

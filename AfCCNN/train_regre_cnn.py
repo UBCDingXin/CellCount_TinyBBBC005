@@ -51,7 +51,8 @@ def train_regre_cnn(trainloader, testloader, max_count, net, path_to_ckpt=None):
     net = net.cuda()
 
     # define optimizer
-    optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=lr_base, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr_base, weight_decay=weight_decay)
 
     # criterion
     criterion = nn.MSELoss()

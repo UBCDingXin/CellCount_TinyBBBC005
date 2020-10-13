@@ -1,0 +1,10 @@
+-f /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/avx2
+-f /cvmfs/soft.computecanada.ca/custom/python/wheelhouse/generic
+numpy
+h5py
+torch==1.5.1
+torchvision==0.6.1
+tqdm
+scipy
+matplotlib
+pyparsing

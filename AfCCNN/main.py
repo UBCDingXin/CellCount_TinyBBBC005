@@ -74,7 +74,8 @@ test_images = hf['IMGs_test'][:]
 test_counts = hf['CellCount_test'][:]
 test_blurs = hf['Blur_test'][:]
 test_stains = hf['Stain_test'][:]
-max_count = np.max(train_counts)
+# max_count = np.max(train_counts)
+max_count = 1.0 #no normalization
 hf.close()
 
 
@@ -97,6 +98,16 @@ if (args.experiment_name).split('_')[0] in ['exp2', 'exp3']:
     train_blurs = train_blurs[indx_left]
     train_stains = train_stains[indx_left]
 ##end if
+
+
+### Delete extra training samples if needed
+if args.num_train<len(train_images):
+    indx_all = np.arange(len(train_images))
+    indx_left = np.random.choice(indx_all, size=args.num_train, replace=False)
+    train_images = train_images[indx_left]
+    train_counts = train_counts[indx_left]
+    train_blurs = train_blurs[indx_left]
+    train_stains = train_stains[indx_left]
 
 
 
@@ -329,8 +340,9 @@ if args.predtype == 'class' and args.ensemble:
     ''' assume the regression cnn for ensembling is already trained '''
     if args.ensemble_regre_model != 'LQReg':
         ### load pre-trained regression cnn
-        assert os.path.exists(args.ensemble_regre_cnn_path)
-        checkpoint = torch.load(args.ensemble_regre_cnn_path)
+        ensemble_regre_cnn_path = os.path.join(save_models_folder, args.ensemble_regre_cnn_path)
+        assert os.path.exists(ensemble_regre_cnn_path)
+        checkpoint = torch.load(ensemble_regre_cnn_path)
         ensemble_cnn_net = cnn_initialization(args.ensemble_regre_model, 1)
         ensemble_cnn_net.load_state_dict(checkpoint['net_state_dict'])
         ### make predictions
@@ -338,8 +350,8 @@ if args.predtype == 'class' and args.ensemble:
         test_counts_pred_ensemble_regre_model = regre_cnn_output['Pred'].reshape(-1) #predictions on the test set
         test_counts_pred_ensemble_regre_model = test_counts_pred_ensemble_regre_model[index_test_reorder] #re-order
 
-    test_counts_pred_ensemble_regre_model[test_counts_pred_ensemble_regre_model<1] = 1
-    test_counts_pred_ensemble_regre_model[test_counts_pred_ensemble_regre_model>max_count] = max_count
+    # test_counts_pred_ensemble_regre_model[test_counts_pred_ensemble_regre_model<1] = 1
+    # test_counts_pred_ensemble_regre_model[test_counts_pred_ensemble_regre_model>max_count] = max_count
 
 
     ''' Finally, adjust classification CNN predictions by the regression model '''
@@ -358,7 +370,6 @@ if args.predtype == 'class' and args.ensemble:
     test_rmse = np.sqrt(np.mean((test_counts_pred_main_cnn.reshape(-1).astype(np.float) - test_counts_gt.reshape(-1).astype(np.float)) ** 2))
     test_mae = np.mean(np.absolute(test_counts_pred_main_cnn.reshape(-1).astype(np.float) - test_counts_gt.reshape(-1).astype(np.float)))
 
-    print("\n====> Ensemble test results: test acc %.4f, test rmse %.4f, test mae %.4f" % (test_acc, test_rmse, test_mae))
-
+    print("\n====> Ensemble test results: Test RMSE %.4f, Test MAE %.4f, Test Acc %.4f" % (test_rmse, test_mae, test_acc))
 
 ''' END '''

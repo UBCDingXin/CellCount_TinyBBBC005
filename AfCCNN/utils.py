@@ -52,8 +52,8 @@ class IMGs_dataset(torch.utils.data.Dataset):
 
         if self.transform:
             image_pil = Image.fromarray(np.uint8(image[0]), mode = 'L') #H * W
-            rotation_degree = np.random.choice(np.array([0, 90, 180, 270]))
-            image_pil = torchvision.transforms.functional.rotate(image_pil, rotation_degree)
+            # rotation_degree = np.random.choice(np.array([0, 90, 180, 270]))
+            # image_pil = torchvision.transforms.functional.rotate(image_pil, rotation_degree)
             image_pil = TransHFlip(image_pil)
             image_pil = TransVFlip(image_pil)
             image[0] = np.array(image_pil)

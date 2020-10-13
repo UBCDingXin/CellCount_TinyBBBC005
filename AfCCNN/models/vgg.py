@@ -34,23 +34,13 @@ class VGG(nn.Module):
 
         in_dim = 512 * math.floor(img_size[0]/2**5)*math.floor(img_size[1]/2**5)
         if num_classes > 1: #classification
-            self.dense = nn.Sequential(
-                nn.Linear(in_dim, 512),
-                nn.BatchNorm1d(512),
-                nn.LeakyReLU(0.1),
-                nn.Linear(512, num_classes),
-            )
+            self.dense = nn.Linear(in_dim, num_classes)
         else: #regression
             self.dense = nn.Sequential(
-                nn.Linear(in_dim, 1024),
-                nn.BatchNorm1d(1024),
-                nn.LeakyReLU(0.1),
-                nn.Linear(1024, 512),
-                nn.BatchNorm1d(512),
-                nn.LeakyReLU(0.1),
-                nn.Linear(512, 1),
+                nn.Linear(in_dim, num_classes),
                 nn.ReLU()
             )
+        #end num_classes
 
     def _make_layers(self, cfg):
         layers = []

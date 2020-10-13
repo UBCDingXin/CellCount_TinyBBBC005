@@ -59,8 +59,9 @@ tiny3bc005_train_counts = hf["CellCount_train"][:]
 tiny3bc005_test_images = hf['IMGs_test'][:]
 tiny3bc005_test_masks = hf['MASKs_test'][:]
 tiny3bc005_test_counts = hf["CellCount_test"][:]
-max_count = np.max(tiny3bc005_train_counts)
-max_mask = np.max(tiny3bc005_train_masks)
+# max_count = np.max(tiny3bc005_train_counts)
+# max_mask = np.max(tiny3bc005_train_masks)
+max_count = 1.0
 hf.close()
 
 ### Delete some cell counts in the training set ###
@@ -80,6 +81,17 @@ if args.deleted_counts != 'None':
     tiny3bc005_train_images = tiny3bc005_train_images[indx_left]
     tiny3bc005_train_counts = tiny3bc005_train_counts[indx_left]
     tiny3bc005_train_masks = tiny3bc005_train_masks[indx_left]
+
+### Delete extra training samples if needed
+if args.num_train<len(tiny3bc005_train_images):
+    indx_all = np.arange(len(tiny3bc005_train_images))
+    indx_left = np.random.choice(indx_all, size=args.num_train, replace=False)
+    tiny3bc005_train_images = tiny3bc005_train_images[indx_left]
+    tiny3bc005_train_counts = tiny3bc005_train_counts[indx_left]
+    tiny3bc005_train_masks = tiny3bc005_train_masks[indx_left]
+
+
+
 
 ### normalize cell counts ###
 tiny3bc005_train_counts = tiny3bc005_train_counts / max_count

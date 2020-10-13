@@ -1,9 +1,0 @@
-Namespace(cnn_batch_size_test=64, cnn_batch_size_train=16, cnn_epochs=120, cnn_lr_base=0.01, cnn_lr_decay_epochs='20_50_80', cnn_lr_decay_factor=0.1, cnn_name='VGG19', cnn_resume_epoch=0, cnn_transform=True, cnn_weight_decay=0.1, deleted_counts='None', experiment_name='exp1', fpn_batch_size_train=16, fpn_epochs=200, fpn_lr_base=0.001, fpn_lr_decay_epochs='50_100_150', fpn_lr_decay_factor=0.1, fpn_resume_epoch=0, fpn_transform=True, fpn_weight_decay=1e-05, img_height=256, img_width=256, num_channels=1, num_workers=1, path_tinybbbc005='/media/qiong/icecream/SSC_case_study/CellCount_TinyBBBC005/dataset/Tiny-BBBC005_256x256.h5', path_vgg_dataset='', root='/media/qiong/icecream/SSC_case_study/CellCount_TinyBBBC005/FPNCNN', seed=2020)
-
- -----------------------------------------------------------------------------------------
-
- Start training FPN >>>
-
-/media/qiong/icecream/SSC_case_study/CellCount_TinyBBBC005/FPNCNN/output/saved_models/ckpt_FPN_epochs_200_transform_True_seed_2020.pth
-
- Begin training FPN:

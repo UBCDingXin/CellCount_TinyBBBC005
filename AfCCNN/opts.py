@@ -10,18 +10,19 @@ def prepare_options():
     parser.add_argument('--seed', type=int, default=2020, metavar='S', help='random seed')
     parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--experiment_name', type=str, default='exp1',
-                        choices=['exp1',
+                        choices=['exp1', 'exp1_reduced',
                                  'exp2_rd1','exp2_rd2','exp2_rd3',
                                  'exp3_rd1','exp3_rd2','exp3_rd3'])
 
     ''' Datast Settings '''
+    parser.add_argument('--num_train', type=int, default=2400, metavar='N',help='number of training samples')
     parser.add_argument('--num_channels', type=int, default=1, metavar='N')
     parser.add_argument('--img_height', type=int, default=256, metavar='N')
     parser.add_argument('--img_width', type=int, default=256, metavar='N')
 
     ''' CNN Settings '''
     parser.add_argument('--cnn_name', type=str, default='ResNet34',
-                        choices=['ResNet18', 'ResNet34', 'ResNet50', 'VGG11', 'VGG13', 'VGG16', 'VGG19'])
+                        choices=['ResNet18', 'ResNet34', 'ResNet50', 'ResNet101', 'VGG11', 'VGG13', 'VGG16', 'VGG19'])
     parser.add_argument('--predtype', type=str, default='class', choices=['class', 'regre'],
                         help='Prediction type for the cnn: classication or regression;')
     parser.add_argument('--epochs', type=int, default=200)
