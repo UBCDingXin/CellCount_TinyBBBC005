@@ -1,5 +1,5 @@
 # CellCount_TinyBBBC005
-Cell counting on the Tiny-BBBC005 datasets
+Cell counting on the Tiny-BBBC005 dataset
 
 
 ## h5 Datasets
