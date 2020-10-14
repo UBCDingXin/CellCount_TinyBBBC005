@@ -1,6 +1,6 @@
-ROOT_PATH="/home/xin/OneDrive/Working_directory/Annotation-free_Cell_Counting/FPNCNN"
-VGG_DATA_PATH='/home/xin/OneDrive/Working_directory/datasets/Cell_Counting/VGGDataset/VGG_dataset.h5'
-TINY_BBBC005_DATA_PATH='/home/xin/OneDrive/Working_directory/datasets/Cell_Counting/Tiny-BBBC005/Tiny-BBBC005_256x256.h5'
+ROOT_PATH="./CellCount_TinyBBBC005/FPNCNN"
+VGG_DATA_PATH='./CellCount_TinyBBBC005/VGG_dataset.h5'
+TINY_BBBC005_DATA_PATH='./CellCount_TinyBBBC005/Tiny-BBBC005_256x256.h5'
 NTRAIN=1200
 
 

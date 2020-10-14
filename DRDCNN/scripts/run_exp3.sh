@@ -1,6 +1,6 @@
-ROOT_PATH="./DRDCNN"
-VGG_DATA_PATH='./VGGDataset/VGG_dataset.h5'
-TINY_BBBC005_DATA_PATH='./Tiny-BBBC005_256x256.h5'
+ROOT_PATH="./CellCount_TinyBBBC005/DRDCNN"
+VGG_DATA_PATH='./CellCount_TinyBBBC005/VGGDataset/VGG_dataset.h5'
+TINY_BBBC005_DATA_PATH='./CellCount_TinyBBBC005/Tiny-BBBC005_256x256.h5'
 SEED=2020
 
 echo "-------------------------------------------------------------------------------------------------"
