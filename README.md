@@ -1,6 +1,15 @@
 # CellCount_TinyBBBC005
 Cell counting on the Tiny-BBBC005 datasets
 
+
+## h5 Datasets
+Tiny-BBBC005 <br />
+https://1drv.ms/u/s!Arj2pETbYnWQsL0vJF6KJQPIbj_6Fw?e=rsdvw2
+
+VGG Dataset <br />
+https://1drv.ms/u/s!Arj2pETbYnWQsL0fsFvYKI5cOt-sxg?e=ceZfFI
+
+
 ## 1. Ours: ResNet-XX(CE)+DA+Ensemble (in './AfCCNN') <br />
 
 
@@ -14,5 +23,5 @@ Hernández, Carlos X., Mohammad M. Sultan, and Vijay S. Pande. "Using deep learn
 Liu, Qian, et al. "Automated Counting of Cancer Cells by Ensembling Deep Features." Cells 8.9 (2019): 1019.
 
 ## 5. Regression-oriented ResNets (in './AfCCNN') <br />
-Xue, Yao, et al. "Cell counting by regression using convolutional neural network." European Conference on Computer Vision. Springer, Cham, 2016. <br />
+Xue, Yao, et al. "Cell counting by regression using convolutional neural network." European Conference on Computer Vision. Springer, Cham, 2016. <br />  
 Xue, Yao. "Cell Counting and Detection in Microscopy Images using Deep Neural Network." (2018).
