@@ -1,6 +1,6 @@
-ROOT_PATH="/home/xin/OneDrive/Working_directory/Annotation-free_Cell_Counting/DRDCNN"
-VGG_DATA_PATH='/home/xin/OneDrive/Working_directory/datasets/Cell_Counting/VGGDataset/VGG_dataset.h5'
-TINY_BBBC005_DATA_PATH='/home/xin/OneDrive/Working_directory/datasets/Cell_Counting/Tiny-BBBC005/Tiny-BBBC005_256x256.h5'
+ROOT_PATH="./DRDCNN"
+VGG_DATA_PATH='./VGGDataset/VGG_dataset.h5'
+TINY_BBBC005_DATA_PATH='./Tiny-BBBC005_256x256.h5'
 SEED=2020
 
 
