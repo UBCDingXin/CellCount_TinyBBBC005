@@ -1,5 +1,18 @@
-# CellCount_TinyBBBC005
+# Codes for the experiments in "[Classification Beats Regression: Counting of Cells from Greyscale Microscopic Images based on Annotation-free Training Samples](https://arxiv.org/pdf/2010.14782v1.pdf)"
+
 Cell counting on the Tiny-BBBC005 dataset
+
+If you use this code, please cite
+```text
+@misc{ding2020classification,
+      title={Classification Beats Regression: Counting of Cells from Greyscale Microscopic Images based on Annotation-free Training Samples}, 
+      author={Xin Ding and Qiong Zhang and William J. Welch},
+      year={2020},
+      eprint={2010.14782},
+      archivePrefix={arXiv},
+      primaryClass={eess.IV}
+}
+```
 
 
 ## h5 Datasets
