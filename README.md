@@ -1,5 +1,7 @@
 # Codes for the experiments in "[Classification Beats Regression: Counting of Cells from Greyscale Microscopic Images based on Annotation-free Training Samples](https://arxiv.org/pdf/2010.14782.pdf)"
 
+**[NEWS!]** Our paper is accepted by [CAAI International Conference on Artificial Intelligence (CICAI) 2021](https://cicai.caai.cn/#/).
+
 Cell counting on the Tiny-BBBC005 dataset
 
 If you use this code, please cite
