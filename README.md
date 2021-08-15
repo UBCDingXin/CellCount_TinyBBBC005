@@ -16,6 +16,7 @@ If you use this code, please cite
 }
 ```
 
+--------------------------------------------------------
 
 ## h5 Datasets
 Tiny-BBBC005 <br />
@@ -24,6 +25,10 @@ https://1drv.ms/u/s!Arj2pETbYnWQsL0vJF6KJQPIbj_6Fw?e=rsdvw2
 VGG Dataset <br />
 https://1drv.ms/u/s!Arj2pETbYnWQsL0fsFvYKI5cOt-sxg?e=ceZfFI
 
+
+--------------------------------------------------------
+
+The following codes are tested on a Ubuntu system with TWO RTX-2080 Ti. <br />
 
 ## 1. Ours: ResNet-XX(CE)+DA+Ensemble (in './AfCCNN') <br />
 Run scripts in `./AfCCNN/scripts/*.sh`
